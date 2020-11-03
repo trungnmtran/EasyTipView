@@ -172,11 +172,11 @@ public extension EasyTipView {
             self.transform = self.preferences.animating.dismissTransform
             self.alpha = self.preferences.animating.dismissFinalAlpha
         }) { (finished) -> Void in
-            completion?()
             self.removeFromSuperview()
             self.transform = CGAffineTransform.identity
             
             self.delegate?.easyTipViewDidDismiss(self)
+            completion?()
         }
     }
 }
