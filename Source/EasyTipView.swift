@@ -140,9 +140,11 @@ public extension EasyTipView {
         transform = initialTransform
         alpha = initialAlpha
         
-        let tap = UITapGestureRecognizer(target: self, action: #selector(handleTap))
-        tap.delegate = self
-        addGestureRecognizer(tap)
+        if preferences.animating.dismissOnTap {
+            let tap = UITapGestureRecognizer(target: self, action: #selector(handleTap))
+            tap.delegate = self
+            addGestureRecognizer(tap)
+        }
         
         superview.addSubview(self)
         
@@ -186,7 +188,7 @@ public extension EasyTipView {
 extension EasyTipView: UIGestureRecognizerDelegate {
 
     open override func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
-        return preferences.animating.dismissOnTap
+        return true
     }
 }
 
@@ -507,6 +509,8 @@ open class EasyTipView: UIView {
     // MARK:- Callbacks -
     
     @objc func handleTap() {
+        guard preferences.animating.dismissOnTap else { return }
+
         dismiss()
     }
     
